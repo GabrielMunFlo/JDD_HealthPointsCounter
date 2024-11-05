@@ -4,7 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
-class Player (var name: String,health: Int = 100, var eliminated: Boolean = false) {
+class Player (var name: String,health: Int = 100) {
     var health by mutableStateOf(health) // Ahora es observable
         private set
 

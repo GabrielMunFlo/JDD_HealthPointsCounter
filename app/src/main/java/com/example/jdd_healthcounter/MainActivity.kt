@@ -53,7 +53,9 @@ fun HealthCounterApp(){
 
 
     Column {
-        PlayerList(players = players)
+        PlayerList(players = players, onRemovePlayer = { player ->
+            players.remove(player)
+        })
         Button(onClick = {
             val newPlayerNumber = players.size + 1
             if (players.size < 10) {players.add(Player(name = "Player$newPlayerNumber"))}
@@ -66,14 +68,14 @@ fun HealthCounterApp(){
 
 
 @Composable
-fun PlayerList(players: List<Player>, modifier: Modifier = Modifier){
+fun PlayerList(players: List<Player>, onRemovePlayer: (Player) -> Unit, modifier: Modifier = Modifier){
     for (player in players) {
-        PlayerDisplay(player = player, modifier = modifier.padding(8.dp))
+        PlayerDisplay(player = player, onRemovePlayer = { onRemovePlayer(player) }, modifier = modifier.padding(8.dp))
     }
 }
 
 @Composable
-fun PlayerDisplay(player: Player, modifier: Modifier = Modifier) {
+fun PlayerDisplay(player: Player, onRemovePlayer: () -> Unit, modifier: Modifier = Modifier) {
     Row {
         Text(
             text = "${player.name}, Salud: ${player.health}, Vivo: ${player.isAlive}",
@@ -87,7 +89,7 @@ fun PlayerDisplay(player: Player, modifier: Modifier = Modifier) {
             Text(text = "-")
 
         }
-        Button(onClick = {player.eliminated = true}) {
+        Button(onClick = onRemovePlayer) {
             Text(text = "x")
         }
 
